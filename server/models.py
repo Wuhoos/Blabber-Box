@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 from sqlalchemy.orm import validates
 
-from config import db
+
 
 metadata = MetaData(
     naming_convention={
@@ -33,8 +33,8 @@ class Conversations(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     message = db.Column(db.String)
-    user1_id = db.Column(db.Integer, db.ForeignKey("profile_table.id"), nullable = False)
-    user2_id = db.Column(db.Integer, db.ForeignKey("profile_table.id"), nullable = False)
+    # user1_id = db.Column(db.Integer, db.ForeignKey("profile_table.id"), nullable = False)
+    # user2_id = db.Column(db.Integer, db.ForeignKey("profile_table.id"), nullable = False)
 
     messages = db.relationship('Message', back_populates='conversations_object')
 
