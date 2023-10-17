@@ -1,6 +1,6 @@
 from flask import request, Flask, make_response, jsonify
 from flask_restful import Resource, Api
-from models import db, *
+from models import db, Profile, Conversations, Message
 from flask_socketio import SocketIO, send
 
 from flask_migrate import Migrate
@@ -24,12 +24,6 @@ def handle_message(msg):
 @app.route('/')
 def index():
     return '<h1>Project Server</h1>'
-
-@app.route('/')
-def index():
-    # return render_template('home.html')
-    return '<h1>Project Server</h1>'
-
 
 @app.get('/<str:username>/<int:id>')
 def get_user_conversations(username, id):
