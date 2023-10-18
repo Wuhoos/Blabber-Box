@@ -1,24 +1,22 @@
 import {useState} from 'react'
-import RegisterHome from './RegisterHome'
 
-function Home({attemptLogin, attemptSignup}) {
+function RegisterHome({attemptSignup}) {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
     const handleUsername = e => setUsername(e.target.value)
     const handlePassword = e => setPassword(e.target.value)
 
-    function handleLogin(e) {
+    function handleSignup(e) {
+        attemptSignup({username, password})
         e.preventDefault()
-        attemptLogin({username, password})
-        
     }
 
     return (
         <div>
-            <form onSubmit = {handleLogin}>
+            <form onSubmit = {handleSignup}>
 
-                <h1>Login</h1>
+                <h1>Register</h1>
                 <input 
                     type = 'text'
                     onChange = {handleUsername}
@@ -33,12 +31,11 @@ function Home({attemptLogin, attemptSignup}) {
                     placeholder = 'password'
                 />
 
-                <input type = 'submit' value = 'Login'/>
+                <input type = 'submit' value = 'Signup'/>
 
             </form>
-            <RegisterHome attemptSignup = {attemptSignup}/>
         </div>
     )
 }
 
-export default Home
+export default RegisterHome

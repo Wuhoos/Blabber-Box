@@ -1,36 +1,85 @@
 import React, { useEffect, useState } from "react";
-//import io from 'socket.io-client';
-//import { Switch, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
+import Home from './Home'
+import Conversations from './Conversations'
 
-let endPoint = 'http://localhost:5555';
-//let socket = io.connect(`${endPoint}`);
 
-const App = () => {
-//   const [messages, setMessages] = useState(['Welcome User']);
-//   const [message, setMessage] = useState('');
+function App() {
+  const [profile, setProfile] = useState(null)
+  const [conversations, setConversations] = useState([])
 
-//   useEffect(() => {
-//     getMessages()
-//   }, [messages.length]);
+  useEffect(() => {
+    fetch('/check_login')
+    .then(response => {
+      if (response.ok) {
+        response.json()
+        .then(data => setProfile(data))
+      }
+    })
+  }, [])
 
-//   const getMessages = () => {
-//     socket.on('message', msg => {
-//       setMessages([...messages, msg]);
-//     });
-//   };
+  useEffect(() => {
+      profile &&
+      fetch(`/${profile.username}/conversations`)
+      .then(response => {
+        if (response.ok) {
+          
+          response.json()
+          .then(data => {setConversations(data)})
+        } else{
+          setConversations([])
+        }
+      })
+    
+    
+  }, [profile])
 
-  // const onChange = e => {
-  //   setMessage(e.target.value);
-  // };
+  function attemptLogin(profileInfo) {
+    fetch('/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accepts': 'application/json',
+      },
+      body: JSON.stringify(profileInfo)
+    })
+      .then((res)=>res.json())
+      .then((data) => setProfile(data));
+  }
 
-  // const onClick = () => {
-  //   if (message !== '') {
-  //     socket
-  //   }
-  // }
+  function attemptSignup(profileInfo) {
+    fetch('/profile', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accepts': 'application/json',
+      },
+      body: JSON.stringify(profileInfo),
+    })
+    .then((res)=>res.json())
+    .then((data) => setProfile(data))
+  }
+
+  function logout() {
+    fetch('/logout', {
+      method: 'DELETE'
+    })
+    .then(res => {if (res.ok) {    
+      setProfile(null)
+    }})
+  }
+
+
   return (
     <div>
-      <p>Hello World!</p>
+      <Switch>
+        <Route exact path = '/'>
+          <Home attemptLogin = {attemptLogin} attemptSignup = {attemptSignup}/>
+        </Route>
+        <Route path = '/<string:username>/conversations'>
+        {profile ? (<Conversations profile = {profile} logout = {logout} conversations = {conversations} />) : null}
+        </Route>
+      </Switch>
     </div>
   )
 }

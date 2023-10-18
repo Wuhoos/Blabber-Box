@@ -9,10 +9,10 @@ if __name__ == '__main__':
     with app.app_context():
         print("Starting seed...")
         profiles = []
-        for n in range(10):
-            profile = Profile(username = fake.name(), password = fake.country())
+
+        for n in range(1):
+            profile = Profile(username = fake.first_name(), password = '')
             profiles.append(profile)
-        
         db.session.add_all(profiles)
         db.session.commit()
 
