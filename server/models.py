@@ -7,51 +7,67 @@ from sqlalchemy.orm import validates
 
 
 metadata = MetaData(
-    naming_convention={
+    naming_convention = {
+        "ix": 'ix_%(column_0_label)s',
+        "uq": "uq_%(table_name)s_%(column_0_name)s",
+        "ck": "ck_%(table_name)s_%(constraint_name)s",
         "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
+        "pk": "pk_%(table_name)s"
     }
 )
 
 db = SQLAlchemy(metadata=metadata)
 
 # Models go here!
+
+
+class Post(db.Model, SerializerMixin):
+    __tablename__= 'post_table'
+
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.String, nullable=False)
+
+    profile_id = db.Column(db.Integer, db.ForeignKey('profile_table.id'), nullable=False)
+
+    comments = db.relationship('Comment', back_populates='post_object')
+    profile_object = db.relationship('Profile', back_populates='posts')
+
+    profile_proxy = association_proxy('comments', 'profile_object')
+
+
+   
+    serialize_rules = ('-comments.post_object', '-profile_object.posts')
+
+
+
+class Comment(db.Model, SerializerMixin):
+    __tablename__ = 'comment_table'
+
+    id = db.Column(db.Integer, primary_key= True)
+    text = db.Column(db.String)
+
+    post_id = db.Column(db.Integer, db.ForeignKey('post_table.id'), nullable=False)
+    profile_id =db.Column(db.Integer, db.ForeignKey('profile_table.id'), nullable=False)
+
+    profile_object = db.relationship('Profile', back_populates='comments')
+    post_object = db.relationship('Post', back_populates='comments')
+
+   
+    serialize_rules = ('-profile_object.comments', '-post_object.comments')
+
+
 class Profile(db.Model, SerializerMixin):
     __tablename__ = 'profile_table'
 
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String, nullable=False)
+    username = db.Column(db.String, unique=True, nullable=False)
     password = db.Column(db.String, nullable = False)
+    posts = db.relationship('Post', back_populates='profile_object')
+    comments = db.relationship('Comment', back_populates='profile_object')
 
-    messages = db.relationship('Message', back_populates ='profile_object')
+    post_proxy = association_proxy('comments', 'post_object')
 
-    conversation_proxy = association_proxy('messages', 'conversations_object')
+    serialize_rules = ('-comments.profile_object', '-posts.profile_object',)
 
-    serialize_rules = ('-messages.profile_object',)
 
-class Conversations(db.Model, SerializerMixin):
-    __tablename__= 'conversation_table'
 
-    id = db.Column(db.Integer, primary_key=True)
-    message = db.Column(db.String)
-    # user1_id = db.Column(db.Integer, db.ForeignKey("profile_table.id"), nullable = False)
-    # user2_id = db.Column(db.Integer, db.ForeignKey("profile_table.id"), nullable = False)
-
-    messages = db.relationship('Message', back_populates='conversations_object')
-
-    profile_proxy = association_proxy('messages', 'profile_object')
-
-    serialize_rules = ('-messages.conversations_object',)
-
-class Message(db.Model, SerializerMixin):
-    __tablename__ = 'message_table'
-
-    id = db.Column(db.Integer, primary_key= True)
-    content = db.Column(db.String)
-
-    conversation_id = db.Column(db.Integer, db.ForeignKey('conversation_table.id'), nullable=False)
-    user_id =db.Column(db.Integer, db.ForeignKey('profile_table.id'), nullable=False)
-
-    profile_object = db.relationship('Profile', back_populates='messages')
-    conversations_object = db.relationship('Conversations', back_populates='messages')
-
-    serialize_rules = ('-profile_object.messages', '-conversations_object.messages')
