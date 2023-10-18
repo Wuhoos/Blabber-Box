@@ -101,16 +101,16 @@ def delete_profile(id):
 #         return make_response(jsonify({"error":"conversation does not exist"}), 404)
 #     return make_response(jsonify(convo.to_dict()), 200)
 
-# @app.post('/conversations')
-# def post_conversations():
-#     data = request.json
-#     try:
-#         new_convo = Conversations(message=data.get('message'), user1_id=data.get('user1_id'), user2_id=data.get('user2_id'))
-#         db.session.add(new_convo)
-#         db.session.commit()
-#         return make_response(jsonify(new_convo.to_dict()), 200)
-#     except:
-#         return make_response(jsonify({"error":"Could not create conversation"}), 404)
+@app.post('/conversations')
+def post_conversations():
+    data = request.json
+    try:
+        new_convo = Conversations(message=data.get('message'))
+        db.session.add(new_convo)
+        db.session.commit()
+        return make_response(jsonify(new_convo.to_dict()), 200)
+    except:
+        return make_response(jsonify({"error":"Could not create conversation"}), 404)
 
 @app.delete('/conversations/<int:id>')
 def delete_conversation(id):
