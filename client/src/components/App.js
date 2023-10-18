@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, useHistory } from "react-router-dom";
 import Home from './Home'
 import Conversations from './Conversations'
 
@@ -7,6 +7,7 @@ import Conversations from './Conversations'
 function App() {
   const [profile, setProfile] = useState(null)
   const [conversations, setConversations] = useState([])
+  let history = useHistory()
 
   useEffect(() => {
     fetch('/check_login')
@@ -44,7 +45,10 @@ function App() {
       body: JSON.stringify(profileInfo)
     })
       .then((res)=>res.json())
-      .then((data) => setProfile(data));
+      .then((data) => {
+        setProfile(data)
+        history.push(`/${data.username}/conversations`)
+      });
   }
 
   function attemptSignup(profileInfo) {
@@ -57,7 +61,10 @@ function App() {
       body: JSON.stringify(profileInfo),
     })
     .then((res)=>res.json())
-    .then((data) => setProfile(data))
+    .then((data) => {
+      setProfile(data)
+      history.push(`/${data.username}/conversations`)
+    })
   }
 
   function logout() {
@@ -66,6 +73,7 @@ function App() {
     })
     .then(res => {if (res.ok) {    
       setProfile(null)
+      history.push('/')
     }})
   }
 
@@ -73,11 +81,11 @@ function App() {
   return (
     <div>
       <Switch>
-        <Route exact path = '/'>
-          <Home attemptLogin = {attemptLogin} attemptSignup = {attemptSignup}/>
+        <Route path = '/:username/conversations'>
+          {profile ? (<Conversations profile = {profile} logout = {logout} conversations = {conversations} />) : null}
         </Route>
-        <Route path = '/<string:username>/conversations'>
-        {profile ? (<Conversations profile = {profile} logout = {logout} conversations = {conversations} />) : null}
+        <Route exact path = '/'>
+          <Home attemptLogin = {attemptLogin} attemptSignup = {attemptSignup} profile = {profile} />
         </Route>
       </Switch>
     </div>

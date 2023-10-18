@@ -33,7 +33,7 @@ function Home({attemptLogin, attemptSignup}) {
                     placeholder = 'password'
                 />
 
-                <input type = 'submit' value = 'Login'/>
+                <input type = 'submit' value = 'Login' /> 
 
             </form>
             <RegisterHome attemptSignup = {attemptSignup}/>
