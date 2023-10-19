@@ -1,13 +1,13 @@
 from flask import request, Flask, make_response, jsonify, session
 from models import db, Profile, Comment, Post
-from flask_cors import CORS
+# from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt 
 
 
 app = Flask(__name__)
 
-CORS(app, supports_credentials=True,  resources='*')
+# CORS(app, supports_credentials=True,  resources='*')
 
 app.config['SECRET_KEY'] = 'mysecret'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
