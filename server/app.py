@@ -7,7 +7,7 @@ from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
 
-CORS(app, supports_credentials=True)
+CORS(app, supports_credentials=True,  resources='*')
 
 app.config['SECRET_KEY'] = 'mysecret'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
@@ -104,7 +104,8 @@ def make_post(username):
             db.session.add(new_post)
             db.session.commit()
             return make_response(jsonify(new_post.to_dict()), 200)
-        except:
+        except Exception as e:
+            print(e)
             return make_response(jsonify({"error":"Could not create post"}), 404)
     return make_response(jsonify({'error': 'cannot post'}))
 
@@ -120,4 +121,4 @@ def delete_post(id):
 if __name__ == '__main__':
     app.run(port = 5545, debug = True)
 
-    
+

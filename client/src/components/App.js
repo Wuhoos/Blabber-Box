@@ -53,6 +53,7 @@ function App() {
   }
 
   function addNewPost(newpost) {
+    console.log(newpost)
     fetch(`http://localhost:5545/${profile.username}/posts`, {
       method: 'POST',
       headers: {
