@@ -3,20 +3,21 @@ import { useState } from 'react'
 
 function Posts({profile, logout, posts, addNewPost}) {
 
-    const defalut = {
-        content: ''
+    const postForm = {
+        content: '',
+        profile_id: profile.id
     }
 
-    const [form, setForm] =useState(defalut)
+    const [form, setForm] =useState(postForm)
 
     const handleSubmit = (e) => {
         e.preventDefault()
         addNewPost(form)
-        setForm(defalut)
+        setForm(postForm)
     }
 
     const handleChange = (e) => {
-        setForm({...form,[e.target.name]: [e.target.value]})
+        setForm({...form,[e.target.name]: e.target.value})
     }
 
 
