@@ -5,7 +5,8 @@ function Posts({profile, logout, posts, addNewPost}) {
 
     const postForm = {
         content: '',
-        profile_id: profile.id
+        profile_id: profile.id,
+        title: ''
     }
 
     const [form, setForm] =useState(postForm)
@@ -27,16 +28,15 @@ function Posts({profile, logout, posts, addNewPost}) {
                 <button onClick = {logout}>Logout
                 <Link to = '/'></Link>
                 </button>
-                {posts.map(({id, content}) => (
-                    <li key={id}>
-                        <h3>
-                            <Link to = {`/${profile.username}/posts/${id}`} key={id}> 
-                                {content} 
-                            </Link>
+                {posts.map((post) => (
+                    <Link to = {`/${profile.username}/posts/${post.id}`}>
+                        <h3 key={post.id}>
+                            {post.title}
                         </h3>
-                    </li>
+                    </Link>
                 ))}
             <form onSubmit={handleSubmit}>
+                <input name = 'title'  placeholder='Title' onChange={handleChange} value={form.title} ></input>
                 <textarea name='content' rows='10' col='20' warp='hard' maxLength='2000' placeholder='Write Post Here' onChange={handleChange} value={form.content} ></textarea>
                 <button type='submit'>Submit</button>
             </form>

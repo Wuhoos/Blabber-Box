@@ -26,17 +26,17 @@ class Post(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String, nullable=False)
-
+    title = db.Column(db.String)
     profile_id = db.Column(db.Integer, db.ForeignKey('profile_table.id'), nullable=False)
 
-    comments = db.relationship('Comment', back_populates='post_object')
-    profile_object = db.relationship('Profile', back_populates='posts')
+    comments = db.relationship('Comment', back_populates='post_object', cascade = 'all, delete')
+    profile_object = db.relationship('Profile', back_populates='posts', cascade = 'all, delete')
 
     profile_proxy = association_proxy('comments', 'profile_object')
 
 
    
-    serialize_rules = ('-comments.post_object', '-profile_object.posts')
+    serialize_rules = ('-comments.post_object', '-profile_object.posts', '-profile_object.comments')
 
 
 
@@ -53,7 +53,7 @@ class Comment(db.Model, SerializerMixin):
     post_object = db.relationship('Post', back_populates='comments')
 
    
-    serialize_rules = ('-profile_object.comments', '-post_object.comments')
+    serialize_rules = ('-profile_object.posts', '-post_object.comments')
 
 
 class Profile(db.Model, SerializerMixin):
@@ -62,10 +62,10 @@ class Profile(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True, nullable=False)
     password = db.Column(db.String, nullable = False)
-    posts = db.relationship('Post', back_populates='profile_object')
-    comments = db.relationship('Comment', back_populates='profile_object')
+    posts = db.relationship('Post', back_populates='profile_object', cascade = 'all, delete')
+    comments = db.relationship('Comment', back_populates='profile_object', cascade = 'all, delete')
 
-    post_proxy = association_proxy('comments', 'post_object')
+    # post_proxy = association_proxy('comments', 'post_object')
 
     serialize_rules = ('-comments.profile_object', '-posts.profile_object',)
 
