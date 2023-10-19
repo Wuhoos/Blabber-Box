@@ -76,7 +76,7 @@ def main_feed():
 
 
 # Get user individual post
-@app.get('/<string:username>/post/<int:id>')
+@app.get('/<string:username>/posts/<int:id>')
 def get_post_by_id(username, id):
     user = Profile.query.filter(Profile.username == username).first()
     post = Post.query.filter(Post.id == id).first()
