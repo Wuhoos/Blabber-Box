@@ -14,9 +14,8 @@ function RegisterHome({attemptSignup}) {
 
     return (
         <div>
-            <form onSubmit = {handleSignup}>
+            <form onSubmit = {handleSignup} className='m-20 flex flex-col space-y-4'>
 
-                <h1>Register</h1>
                 <input 
                     type = 'text'
                     onChange = {handleUsername}
@@ -31,7 +30,7 @@ function RegisterHome({attemptSignup}) {
                     placeholder = 'password'
                 />
 
-                <input type = 'submit' value = 'Signup'/>
+                <input type = 'submit' value = 'Signup' className="text-3xl font-bold underline"/>
 
             </form>
         </div>
