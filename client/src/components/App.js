@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Switch, Route, useHistory } from "react-router-dom";
 import Home from './Home'
-import Conversations from './Conversations'
+import Posts from './Posts'
 
 
 function App() {
   const [profile, setProfile] = useState(null)
-  const [conversations, setConversations] = useState([])
+  const [posts, setPosts] = useState([])
   let history = useHistory()
 
   useEffect(() => {
-    fetch('/check_login')
+    fetch('http://localhost:5545/check_login', {credentials: "include"})
     .then(response => {
       if (response.ok) {
         response.json()
@@ -21,14 +21,14 @@ function App() {
 
   useEffect(() => {
       profile &&
-      fetch(`/${profile.username}/conversations`)
+      fetch(`http://localhost:5545/${profile.username}/posts`)
       .then(response => {
         if (response.ok) {
           
           response.json()
-          .then(data => {setConversations(data)})
+          .then(data => {setPosts(data)})
         } else{
-          setConversations([])
+          setPosts([])
         }
       })
     
@@ -36,8 +36,9 @@ function App() {
   }, [profile])
 
   function attemptLogin(profileInfo) {
-    fetch('/login', {
+    fetch('http://localhost:5545/login', {
       method: 'POST',
+      credentials: "include",
       headers: {
         'Content-Type': 'application/json',
         'Accepts': 'application/json',
@@ -47,13 +48,34 @@ function App() {
       .then((res)=>res.json())
       .then((data) => {
         setProfile(data)
-        history.push(`/${data.username}/conversations`)
+        history.push(`/${data.username}/posts`)
       });
   }
 
-  function attemptSignup(profileInfo) {
-    fetch('/profile', {
+  function addNewPost(newpost) {
+    fetch(`http://localhost:5545/${profile.username}/posts`, {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newpost)
+    })
+    .then(res => {
+      if (!res.ok) {
+        console.error('Server response', res)
+        throw new Error('not okay')
+      }
+      return res.json()
+    })
+    .then(newData => setPosts([newData, ...posts]))
+    .catch(error => console.error('Error adding:', error))
+  }
+
+
+  function attemptSignup(profileInfo) {
+    fetch('http://localhost:5545/profile', {
+      method: 'POST',
+      credentials: "include",
       headers: {
         'Content-Type': 'application/json',
         'Accepts': 'application/json',
@@ -63,12 +85,13 @@ function App() {
     .then((res)=>res.json())
     .then((data) => {
       setProfile(data)
-      history.push(`/${data.username}/conversations`)
+      console.log(data)
+      history.push(`/${data.username}/posts`)
     })
   }
 
   function logout() {
-    fetch('/logout', {
+    fetch('http://localhost:5545/logout', {
       method: 'DELETE'
     })
     .then(res => {if (res.ok) {    
@@ -81,8 +104,8 @@ function App() {
   return (
     <div>
       <Switch>
-        <Route path = '/:username/conversations'>
-          {profile ? (<Conversations profile = {profile} logout = {logout} conversations = {conversations} />) : null}
+        <Route path = '/:username/posts'>
+          {profile ? (<Posts profile = {profile} logout = {logout} posts = {posts} addNewPost={addNewPost} />) : null}
         </Route>
         <Route exact path = '/'>
           <Home attemptLogin = {attemptLogin} attemptSignup = {attemptSignup} profile = {profile} />
@@ -93,3 +116,5 @@ function App() {
 }
 
 export default App;
+
+
