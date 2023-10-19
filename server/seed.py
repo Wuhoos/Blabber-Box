@@ -1,7 +1,7 @@
 from random import randint, choice as rc
 from faker import Faker
 from app import app
-from models import db, Profile, Conversations, Message
+from models import db, Profile, Comment, Post
 from random import randint, choice, choices
 
 if __name__ == '__main__':
@@ -10,8 +10,8 @@ if __name__ == '__main__':
         print("Starting seed...")
 
         Profile.query.delete()
-        Conversations.query.delete()
-        Message.query.delete()
+        Comment.query.delete()
+        Post.query.delete()
         
         profiles = []
 
@@ -21,22 +21,21 @@ if __name__ == '__main__':
         db.session.add_all(profiles)
         db.session.commit()
 
-        conversations = []
+
+        posts = []
 
         for n in range(5):
-            conversation = Conversations(message = fake.name())
-            conversations.append(conversation)
+            content = Post(content = fake.text(), profile_id = choice(profiles).id)
+            posts.append(content)
 
-        db.session.add_all(conversations)
+        db.session.add_all(posts)
         db.session.commit()
 
-        messages = []
+        comments = []
 
         for n in range(5):
-            message = Message(content = fake.text(), conversation_id = choice(conversations).id, user_id = choice(profiles).id)
-            messages.append(message)
+            text = Comment(text = fake.name(), profile_id = choice(profiles).id, post_id = choice(posts).id)
+            comments.append(text)
 
-        db.session.add_all(messages)
+        db.session.add_all(comments)
         db.session.commit()
-
-       
