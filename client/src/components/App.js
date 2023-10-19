@@ -20,17 +20,17 @@ function App() {
     })
   }, [])
 
-  useEffect((post) => {
-    fetch(`/${profile.username}/posts/${post.id}`)
-    .then(response => {
-      if (response.ok) {
-        response.json()
-        .then(data => setPosts(data))
-      } else{
-        setPosts([])
-      }
-    })
-  }, [])
+  // useEffect((post) => {
+  //   fetch(`/${profile.username}/posts/${post.id}`)
+  //   .then(response => {
+  //     if (response.ok) {
+  //       response.json()
+  //       .then(data => setPosts(data))
+  //     } else{
+  //       setPosts([])
+  //     }
+  //   })
+  // }, [])
 
   useEffect(() => {
       profile &&
