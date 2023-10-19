@@ -25,7 +25,7 @@ if __name__ == '__main__':
         posts = []
 
         for n in range(5):
-            content = Post(content = fake.text(), profile_id = choice(profiles).id)
+            content = Post(content = fake.text(), profile_id = choice(profiles).id, title = fake.country())
             posts.append(content)
 
         db.session.add_all(posts)
@@ -39,3 +39,5 @@ if __name__ == '__main__':
 
         db.session.add_all(comments)
         db.session.commit()
+
+    
