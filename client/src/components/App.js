@@ -63,8 +63,19 @@ function App() {
       });
   }
 
-  
-
+  function addNewPost(newpost) {
+    fetch(`/${profile.username}/posts`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newpost)
+    })
+    .then(res => 
+      res.json()
+    )
+    .then(newData => setPosts([newData, ...posts]))
+  }
 
   function attemptSignup(profileInfo) {
     fetch('/profile', {
