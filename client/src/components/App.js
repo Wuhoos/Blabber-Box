@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Switch, Route, Router, useHistory} from "react-router-dom";
+import { Switch, Route, useHistory} from "react-router-dom";
 import Home from './Home'
-import Posts from './Posts'
+import UserPosts from './UserPosts'
 import PostCard from './PostCard'
 import MainFeed from './MainFeed'
 import NavBar from './NavBar'
@@ -101,7 +101,7 @@ function App() {
           {profile ? (<MainFeed profile = {profile} logout = {logout} posts = {posts} addNewPost={addNewPost} />) : null}
         </Route>
         <Route path = '/:username/posts'>
-          <Posts posts={posts} profile = {profile} logout = {logout}/>
+          <UserPosts posts={posts} profile = {profile} logout = {logout}/>
         </Route>
         <Route exact path = '/'>
           <Home attemptLogin = {attemptLogin} attemptSignup = {attemptSignup} profile = {profile} />

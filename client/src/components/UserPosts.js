@@ -1,6 +1,6 @@
 import {Link} from 'react-router-dom'
 
-function Posts({profile, logout, posts}) {
+function UserPosts({profile, logout, posts}) {
 
     return (
         <div>
@@ -19,5 +19,5 @@ function Posts({profile, logout, posts}) {
     )
 }
 
-export default Posts
+export default UserPosts
 
