@@ -15,15 +15,15 @@ function Home({attemptLogin, attemptSignup}) {
     }
 
     return (
-        <div>
-            <form onSubmit = {handleLogin}>
-
-                <h1>Login</h1>
+        <div className='text-center'>
+            <h1 className='text-5xl font-bold underline'>Blabber Box</h1>
+            <form onSubmit = {handleLogin} className='m-20 flex flex-col space-y-4'>
                 <input 
                     type = 'text'
                     onChange = {handleUsername}
                     value = {username}
                     placeholder = 'username'
+                    className='bold'
                 />
 
                 <input 
@@ -33,7 +33,7 @@ function Home({attemptLogin, attemptSignup}) {
                     placeholder = 'password'
                 />
 
-                <input type = 'submit' value = 'Login' /> 
+                <input type = 'submit' value = 'Login' className="text-3xl font-bold underline" /> 
 
             </form>
             <RegisterHome attemptSignup = {attemptSignup}/>
