@@ -25,6 +25,7 @@ function App() {
   useEffect(() => {
       profile &&
       fetch(`/${profile.username}/post`)
+
       .then(response => {
         if (response.ok) {
           response.json()

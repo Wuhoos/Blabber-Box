@@ -1,6 +1,6 @@
 from flask import request, Flask, make_response, jsonify, session
 from models import db, Profile, Comment, Post
-from flask_cors import CORS
+# from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt 
 
