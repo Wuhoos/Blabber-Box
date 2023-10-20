@@ -25,6 +25,8 @@ function PostCard({ profile }) {
         .then (response => {
             if(response.ok) {
                 setDisplayedPost({})
+            }else{
+                console.log(response)
             }
         })  
     }
@@ -32,8 +34,8 @@ function PostCard({ profile }) {
 
     return (
         <div className='setScreen  bg-gray-300 text-center'>
-            <h1 className='text-6xl font-bold bg-gray-400'>{displayedPost.title}</h1>
-            <p className='mt-8'>{displayedPost.content}</p>
+            <h1 className='text-6xl font-bold bg-green-500'>{displayedPost.title}</h1>
+            <p className='mt-8 border-4 mx-7 border-pink-300'>{displayedPost.content}</p>
             {profile?.id === displayedPost.profile_id && <button onClick = {() => deletePost(params.id)}> Delete Post </button>}
             
         </div>

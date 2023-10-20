@@ -16,14 +16,14 @@ function Home({attemptLogin, attemptSignup}) {
 
     return (
         <div className='setScreen text-center bg-gray-300'>
-            <h1 className='text-6xl font-bold bg-gray-400'>Blabber Box</h1>
+            <h1 className='text-6xl font-bold bg-green-500 text-pink-400'>Blabber Box</h1>
             <form onSubmit = {handleLogin} className='m-20 flex flex-col space-y-4'>
                 <input 
                     type = 'text'
                     onChange = {handleUsername}
                     value = {username}
                     placeholder = 'username'
-                    className='bold'
+                    className='border-4 border-pink-300'
                 />
 
                 <input 
@@ -31,6 +31,7 @@ function Home({attemptLogin, attemptSignup}) {
                     onChange = {handlePassword}
                     value = {password}
                     placeholder = 'password'
+                    className='border-4 border-pink-300'
                 />
 
                 <input type = 'submit' value = 'Login' className="text-3xl font-bold underline" /> 

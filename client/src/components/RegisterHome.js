@@ -21,6 +21,7 @@ function RegisterHome({attemptSignup}) {
                     onChange = {handleUsername}
                     value = {username}
                     placeholder = 'username'
+                    className='border-4 border-pink-300'
                 />
 
                 <input 
@@ -28,6 +29,7 @@ function RegisterHome({attemptSignup}) {
                     onChange = {handlePassword}
                     value = {password}
                     placeholder = 'password'
+                    className='border-4 border-pink-300'
                 />
 
                 <input type = 'submit' value = 'Signup' className="text-3xl font-bold underline"/>

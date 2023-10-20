@@ -92,13 +92,8 @@ function App() {
 
   return (
     <div className='items-center'>
-      <NavBar/>
       {profile && <NavBar profile={profile} />}
-
       <Switch>
-        {/* <Route path = '/posts'>
-          {profile ? (<NavBar />) : null}
-        </Route> */}
         <Route path = '/:username/posts/:id'>
               <PostCard profile={profile} />
         </Route>
