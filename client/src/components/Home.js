@@ -15,8 +15,8 @@ function Home({attemptLogin, attemptSignup}) {
     }
 
     return (
-        <div className='text-center'>
-            <h1 className='text-5xl font-bold underline'>Blabber Box</h1>
+        <div className='setScreen text-center bg-gray-300'>
+            <h1 className='text-6xl font-bold bg-gray-400'>Blabber Box</h1>
             <form onSubmit = {handleLogin} className='m-20 flex flex-col space-y-4'>
                 <input 
                     type = 'text'

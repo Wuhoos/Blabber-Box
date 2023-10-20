@@ -31,12 +31,12 @@ function PostCard({ profile }) {
 
 
     return (
-        <>
-            <h1>{displayedPost.title}</h1>
-            <p>{displayedPost.content}</p>
+        <div className='setScreen  bg-gray-300 text-center'>
+            <h1 className='text-6xl font-bold bg-gray-400'>{displayedPost.title}</h1>
+            <p className='mt-8'>{displayedPost.content}</p>
             {profile?.id === displayedPost.profile_id && <button onClick = {() => deletePost(params.id)}> Delete Post </button>}
             
-        </>
+        </div>
     )
 }
 

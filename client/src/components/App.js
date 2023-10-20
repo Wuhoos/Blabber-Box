@@ -91,8 +91,10 @@ function App() {
 
 
   return (
-    <div>
+    <div className='items-center'>
+      <NavBar/>
       {profile && <NavBar profile={profile} />}
+
       <Switch>
         {/* <Route path = '/posts'>
           {profile ? (<NavBar />) : null}
