@@ -91,8 +91,8 @@ function App() {
 
 
   return (
-    <div>
-      <NavBar />
+    <div className='items-center'>
+      <NavBar/>
       <Switch>
         <Route path = '/:username/posts/:id'>
               <PostCard profile={profile} />

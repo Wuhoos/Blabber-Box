@@ -30,24 +30,36 @@ function MainFeed({profile, logout, addNewPost}){
     }
 
     return (
-        <div>
+        <div className='text-center grid gap-y-6 setScreen bg-gray-300'>
 
-             <h2>Main Feed</h2>
-                <button onClick = {logout}>Logout
-                <Link to = '/'></Link>
-                </button>
-                {allPosts.map((post) => (
-                    <Link to = {`/${profile.username}/posts/${post.id}`}>
-                        <h3 key={post.id}>
-                            {post.title}
-                        </h3>
-                    </Link>
-                ))}
-            <form onSubmit={handleSubmit}>
-                <input name = 'title'  placeholder='Title' onChange={handleChange} value={form.title} ></input>
-                <textarea name='content' rows='10' col='20' warp='hard' maxLength='2000' placeholder='Write Post Here' onChange={handleChange} value={form.content} ></textarea>
-                <button type='submit'>Submit</button>
+             <h2 className='font-bold text-6xl bg-gray-400'>Main Feed</h2>
+                <div className='grid grid-cols-3 gap-4 gap-y-6 underline text-2xl' >
+                    {allPosts.map((post) => (
+                        <Link to = {`/${profile.username}/posts/${post.id}`}>
+                            <h3 key={post.id}>
+                                {post.title}
+                            </h3>
+                        </Link>
+                    ))}
+                </div>
+                
+            <form onSubmit={handleSubmit} className='flex flex-col justify-center'>
+                <input name = 'title'  placeholder='Title' onChange={handleChange} value={form.title} className='mb-2 rounded-md'></input>
+                <textarea name='content' 
+                rows='10' 
+                col='20' 
+                warp='hard' 
+                maxLength='2000' 
+                placeholder='Write Post Here' 
+                onChange={handleChange} 
+                value={form.content}
+                className='rounded-md'
+                 ></textarea>
+                <button type='submit' className='underline font-bold'>Submit</button>
             </form>
+            <button onClick = {logout} className='underline font-bold'>Logout
+                <Link to = '/'></Link>
+            </button >
         </div>
     )
 }
