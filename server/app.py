@@ -126,6 +126,8 @@ def make_post(username):
 # Update user post
 @app.patch('/<string:username>/post/<int:id>')
 def update_profile(username, id):
+    print("username", username)
+    print("id", id)
     post = Post.query.filter(Post.id).first()
     user = Profile.query.filter(Profile.username == username).first()
     data = request.json

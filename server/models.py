@@ -30,7 +30,7 @@ class Post(db.Model, SerializerMixin):
     profile_id = db.Column(db.Integer, db.ForeignKey('profile_table.id'), nullable=False)
 
     comments = db.relationship('Comment', back_populates='post_object', cascade = 'all, delete')
-    profile_object = db.relationship('Profile', back_populates='posts', cascade = 'all, delete')
+    profile_object = db.relationship('Profile', back_populates='posts')
 
     profile_proxy = association_proxy('comments', 'profile_object')
 

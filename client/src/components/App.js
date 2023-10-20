@@ -7,7 +7,7 @@ import MainFeed from './MainFeed'
 import NavBar from './NavBar'
 
 function App() {
-  const [profile, setProfile] = useState({})
+  const [profile, setProfile] = useState(null)
   const [posts, setPosts] = useState([])
   let history = useHistory()
   
@@ -47,7 +47,7 @@ function App() {
       .then((res)=>res.json())
       .then((data) => {
         setProfile(data)
-        history.push(`/${data.username}/posts`)
+        history.push('/posts')
       });
   }
 
@@ -63,7 +63,7 @@ function App() {
     .then((res)=>res.json())
     .then((data) => {
       setProfile(data)
-      history.push(`/${data.username}/posts`)
+      history.push('/posts')
     })
   }
 
@@ -92,8 +92,11 @@ function App() {
 
   return (
     <div>
-      <NavBar />
+      {profile && <NavBar profile={profile} />}
       <Switch>
+        {/* <Route path = '/posts'>
+          {profile ? (<NavBar />) : null}
+        </Route> */}
         <Route path = '/:username/posts/:id'>
               <PostCard profile={profile} />
         </Route>
@@ -101,7 +104,7 @@ function App() {
           {profile ? (<MainFeed profile = {profile} logout = {logout} posts = {posts} addNewPost={addNewPost} />) : null}
         </Route>
         <Route path = '/:username/posts'>
-          <UserPosts posts={posts} profile = {profile} logout = {logout}/>
+          {profile && <UserPosts posts={posts} profile = {profile} logout = {logout}/>}
         </Route>
         <Route exact path = '/'>
           <Home attemptLogin = {attemptLogin} attemptSignup = {attemptSignup} profile = {profile} />
