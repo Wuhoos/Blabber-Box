@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Switch, Route, useHistory, useParams } from "react-router-dom";
+import { Switch, Route, useHistory} from "react-router-dom";
 import Home from './Home'
-import Posts from './Posts'
+import UserPosts from './UserPosts'
 import PostCard from './PostCard'
 import MainFeed from './MainFeed'
+import NavBar from './NavBar'
 
 function App() {
-  const [profile, setProfile] = useState(null)
+  const [profile, setProfile] = useState({})
   const [posts, setPosts] = useState([])
   let history = useHistory()
+  
 
   useEffect(() => {
     fetch('/check_login')
@@ -19,18 +21,6 @@ function App() {
       }
     })
   }, [])
-
-  // useEffect((post) => {
-  //   fetch(`/${profile.username}/posts/${post.id}`)
-  //   .then(response => {
-  //     if (response.ok) {
-  //       response.json()
-  //       .then(data => setPosts(data))
-  //     } else{
-  //       setPosts([])
-  //     }
-  //   })
-  // }, [])
 
   useEffect(() => {
       profile &&
@@ -43,8 +33,6 @@ function App() {
           setPosts([])
         }
       })
-    
-    
   }, [profile])
 
   function attemptLogin(profileInfo) {
@@ -61,20 +49,6 @@ function App() {
         setProfile(data)
         history.push(`/${data.username}/posts`)
       });
-  }
-
-  function addNewPost(newpost) {
-    fetch(`/${profile.username}/posts`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newpost)
-    })
-    .then(res => 
-      res.json()
-    )
-    .then(newData => setPosts([newData, ...posts]))
   }
 
   function attemptSignup(profileInfo) {
@@ -118,15 +92,16 @@ function App() {
 
   return (
     <div>
+      <NavBar />
       <Switch>
-        <Route path = '/:username/posts'>
-          {profile ? (<Posts profile = {profile} logout = {logout} posts = {posts} addNewPost={addNewPost} />) : null}
-        </Route>
         <Route path = '/:username/posts/:id'>
-          <PostCard profile={profile} posts = {posts}/>
+              <PostCard profile={profile} />
         </Route>
         <Route path = '/posts'>
-          <MainFeed posts={posts}/>
+          {profile ? (<MainFeed profile = {profile} logout = {logout} posts = {posts} addNewPost={addNewPost} />) : null}
+        </Route>
+        <Route path = '/:username/posts'>
+          <UserPosts posts={posts} profile = {profile} logout = {logout}/>
         </Route>
         <Route exact path = '/'>
           <Home attemptLogin = {attemptLogin} attemptSignup = {attemptSignup} profile = {profile} />
