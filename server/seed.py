@@ -15,7 +15,7 @@ if __name__ == '__main__':
         
         profiles = []
 
-        for n in range(5):
+        for n in range(20):
             profile = Profile(username = fake.first_name(), password = fake.last_name())
             profiles.append(profile)
         db.session.add_all(profiles)
@@ -24,8 +24,8 @@ if __name__ == '__main__':
 
         posts = []
 
-        for n in range(5):
-            content = Post(content = fake.text(), profile_id = choice(profiles).id, title = fake.country())
+        for n in range(20):
+            content = Post(content = fake.text(), profile_id = choice(profiles).id, title = fake.city())
             posts.append(content)
 
         db.session.add_all(posts)
@@ -33,7 +33,7 @@ if __name__ == '__main__':
 
         comments = []
 
-        for n in range(5):
+        for n in range(20):
             text = Comment(text = fake.name(), profile_id = choice(profiles).id, post_id = choice(posts).id)
             comments.append(text)
 
